@@ -1,12 +1,6 @@
 import { formatDistance } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import {
-  CaretDown,
-  File as PhosphorFile,
-  Folders,
-  PencilSimple,
-  Plus,
-} from "phosphor-react";
+import { CaretDown, File as PhosphorFile, Folders, Plus } from "phosphor-react";
 import { Modal } from "../components/Modal";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as Accordion from "@radix-ui/react-accordion";
@@ -17,9 +11,6 @@ import { Header } from "../components/Header";
 import { TextInput } from "../components/Form/TextInput";
 import { Dropdown } from "../components/Form/Dropdown";
 import { Client } from "./Clients";
-import { Table } from "../components/Table/Table";
-import { TableRow } from "../components/Table/TableRow";
-import { TableCell } from "../components/Table/TableCell";
 
 interface File {
   id: string;
@@ -140,40 +131,84 @@ export function Projects() {
             />
           </div>
 
-          <p className="mt-4 text-gray-700 text-lg">
-            Sua empresa possui <strong>{projects.length}</strong> projetos.
-          </p>
-
-          <Table columnNames={["CLIENTE", "CONTATO", ""]}>
-            {projects.map((project) => (
-              <TableRow key={project.id}>
-                <TableCell>
-                  <span className="flex items-center gap-4">
-                    <Avatar.Root>
-                      <Avatar.Image
-                        src={project.client.avatar}
-                        alt=""
-                        className="w-14 rounded-full border border-blue-300"
-                      />
-                      <Avatar.Fallback className="w-14 h-14 rounded-full bg-blue-100 border border-blue-300 p-4 font-bold flex items-center justify-center text-center">
-                        {project.client.initials}
-                      </Avatar.Fallback>
-                    </Avatar.Root>
-                    <div>
-                      <strong>{project.name}</strong>
-                      <p className="text-sm text-gray-500">
-                        Projeto iniciado{" "}
-                        {formatDistance(project.created_at, Date.now(), {
-                          addSuffix: true,
-                          locale: ptBR,
-                        })}
-                      </p>
+          <div className="w-full mt-10 rounded-lg overflow-hidden border border-gray-300 shadow-md">
+            <Accordion.Root
+              type="single"
+              defaultValue="item-1"
+              collapsible
+              className="w-full"
+            >
+              {projects.map((project) => (
+                <Accordion.Item value={project.id} key={project.id}>
+                  <Accordion.Trigger className="w-full p-8 bg-white border-b border-gray-300 text-left">
+                    <div className="flex items-center justify-between">
+                      <span className="w-14, h-14 flex items-center gap-4">
+                        <Avatar.Root>
+                          <Avatar.Image
+                            src=""
+                            alt=""
+                            className="w-14 h-14 rounded-full border border-blue-300 object-cover"
+                          />
+                          <Avatar.Fallback className="w-14 h-14 rounded-full bg-blue-100 border border-blue-300 p-4 font-bold flex items-center justify-center text-center">
+                            {project.client.initials}
+                          </Avatar.Fallback>
+                        </Avatar.Root>
+                        <div>
+                          <strong>{project.client.name}</strong>
+                          <p className="text-sm text-gray-500">
+                            Cliente há{" "}
+                            {formatDistance(
+                              project.client.created_at,
+                              Date.now(),
+                              {
+                                addSuffix: true,
+                                locale: ptBR,
+                              }
+                            )}
+                          </p>
+                        </div>
+                      </span>
+                      <div className="flex items-center gap-4">
+                        <p>Ver projetos</p>
+                        <CaretDown size={20} />
+                      </div>
                     </div>
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
-          </Table>
+                  </Accordion.Trigger>
+                  <Accordion.Content className="p-8 bg-gray-100 border-b border-gray-300 text-gray-500">
+                    <div className="flex flex-col gap-4">
+                      <div>
+                        <p>
+                          <strong>{project.name}</strong> -{" "}
+                          {project.projectType.name}
+                        </p>
+                        <p>
+                          Criado{" "}
+                          {formatDistance(project.created_at, Date.now(), {
+                            addSuffix: true,
+                            locale: ptBR,
+                          })}
+                        </p>
+                      </div>
+                      <div>
+                        <p>Arquivos:</p>
+                        <ul>
+                          {project.files.map((file) => (
+                            <li
+                              className="flex items-center gap-2"
+                              key={file.id}
+                            >
+                              <PhosphorFile />
+                              <a>{file.path.split("/").slice(-1)[0]}</a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </Accordion.Content>
+                </Accordion.Item>
+              ))}
+            </Accordion.Root>
+          </div>
         </div>
       </main>
     </div>

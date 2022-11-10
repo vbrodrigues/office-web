@@ -15,7 +15,7 @@ import { Table } from "../components/Table/Table";
 import { TableRow } from "../components/Table/TableRow";
 import { TableCell } from "../components/Table/TableCell";
 import { Sidebar } from "../components/Sidebar/Sidebar";
-import { Project } from "./Projects";
+import { Project } from "./ProjectsV0";
 import { TextInput } from "../components/Form/TextInput";
 import { Dropzone } from "../components/Form/Dropzone";
 import { Header } from "../components/Header";
